@@ -1,0 +1,52 @@
+{
+    "name": "crmchatbot2",
+    "description": "",
+    "services": [
+        {
+            "type": "abs",
+            "tenantId": "74c3a4b1-a2a5-4e48-9d7b-434f36d335ed",
+            "subscriptionId": "d3e20f4b-b068-4133-af76-c3f6e2da5987",
+            "resourceGroup": "crmchatbot2",
+            "serviceName": "crmchatbot2",
+            "name": "crmchatbot2",
+            "id": "1",
+            "appId": "e48ea595-a141-4426-b85c-da8675f0b16d"
+        },
+        {
+            "type": "blob",
+            "connectionString": "J2Xcpm4p7wL2dhQd2y9DsQ==!tPsps8s5ywZg1mx8DBkoWJtRmLIKv7JMmdPb1Up9xg3EULFfFkipxqeOE/JJW3sr6P2HCSui1vR1kDoUPjaYyFqe1O0ZcIT1ie5iONkBwatdEVa9cfzxOsX5tLACwYiw",
+            "tenantId": "74c3a4b1-a2a5-4e48-9d7b-434f36d335ed",
+            "subscriptionId": "d3e20f4b-b068-4133-af76-c3f6e2da5987",
+            "resourceGroup": "atidan-eastus",
+            "serviceName": "atmumadddcdiag953",
+            "id": "2"
+        },
+        {
+            "type": "endpoint",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/azure",
+            "name": "development",
+            "id": "3"
+        },
+        {
+            "type": "endpoint",
+            "appId": "e48ea595-a141-4426-b85c-da8675f0b16d",
+            "appPassword": "FMORhXu0vf2yEu/rwH7OrQ==!8hKW/sJ+B0mP0bx09TtVMwkQH8XHnU6+fJBiLSRBG0E=",
+            "endpoint": "https://crmchatbotapi.azurewebsites.net/api/azure",
+            "name": "production",
+            "id": "4"
+        },
+        {
+            "type": "luis",
+            "name": "CRM Helper",
+            "appId": "9df33e90-99c0-425f-9e33-2be7937a1e4d",
+            "version": "v0.1",
+            "authoringKey": "mJG2Ir2gtKTPBdUZtvcCxA==!Us/pgBUOpujIzdHU4m2sELKC19dXxy10KTNxUboERcM8W8YH3tbd717raaLwibBC",
+            "region": "eastus",
+            "id": "222"
+        }
+    ],
+    "padlock": "dc0ShKQ+WQR8HTXdErQJZQ==!0jimm8DvoSwSwv3ArSa4wqRcHM2mD0IiSpam0H7hgFjXYzXvY5aUbT9//VV+0f6Y",
+    "version": "2.0"
+}

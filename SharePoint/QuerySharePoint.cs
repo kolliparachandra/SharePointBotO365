@@ -12,10 +12,58 @@ namespace EchoBot1.SharePoint
 {
     public class QuerySharePoint
     {
+        public static async Task AddTask(string webUrl, ITurnContext<IMessageActivity> turnContext, IConfiguration ConfigurationManager)
+        {
+            var taskId = Guid.NewGuid();
+            List<string> titles = new List<string>
+            {
+                $"A task with Id {taskId} added to Tasks List"
+            };
+
+            var userName = ConfigurationManager["CrmUsername"].ToString();
+            var password = ConfigurationManager["CrmPassword"].ToString();
+
+            await Task.Run(async () =>
+            {
+
+                try
+                {
+                    using (var context = new ClientContext(webUrl))
+                    {
+                        context.Credentials = new SharePointOnlineCredentials(userName, password);
+                        Web web = context.Web;
+                        var oList = context.Web.Lists.GetByTitle("Tasks");
+
+                        ListItemCreationInformation itemCreateInfo = new ListItemCreationInformation();
+                        ListItem oListItem = oList.AddItem(itemCreateInfo);
+                        oListItem["Title"] = $"A New Task with Id of {taskId} added!";
+                        oListItem["Body"] = "Hello Razor Tech!";
+                        oListItem["Status"] = "Started";
+                        oListItem["StartDate"] = DateTime.Now.ToLongDateString();
+                        oListItem["DueDate"] = DateTime.Now.AddDays(2).ToLongDateString();
+
+                        oListItem.Update();
+                        await context.ExecuteQueryAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    titles.Add(ex.Message);
+                }
+
+                var card = new HeroCard
+                {
+                    Buttons = CrmLead.CreateButtons(titles)
+                };
+                await CrmLead.DisplayMessage(card, turnContext);
+            });
+        }
         public static async Task GetTopLists(string webUrl, int count, ITurnContext<IMessageActivity> turnContext, string siteName, IConfiguration ConfigurationManager)
         {
-            List<string> titles = new List<string>();
-            titles.Add($"{siteName} contains the following top {count} lists");
+            List<string> titles = new List<string>
+            {
+                $"{siteName} contains the following top {count} lists"
+            };
 
             var userName = ConfigurationManager["CrmUsername"].ToString();
             var password = ConfigurationManager["CrmPassword"].ToString();
@@ -59,8 +107,10 @@ namespace EchoBot1.SharePoint
 
         public static async Task GetListContents(string webUrl, string listName, int count, ITurnContext<IMessageActivity> turnContext, IConfiguration ConfigurationManager)
         {
-            List<string> titles = new List<string>();
-            titles.Add($"{listName} contains the following top {count} list ITEMS");
+            List<string> titles = new List<string>
+            {
+                $"{listName} contains the following top {count} list ITEMS"
+            };
             var userName = ConfigurationManager["CrmUsername"].ToString();
             var password = ConfigurationManager["CrmPassword"].ToString();
 

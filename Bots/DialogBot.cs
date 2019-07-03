@@ -260,6 +260,10 @@ namespace EchoBot1.Bots
                     if (listName.ToLower() == "billing" || listName.ToLower() == "billingreports") listName = "Billing Reports";
                     await QuerySharePoint.GetListContents("https://atidan2.sharepoint.com/sites/myrazor/DBS", listName, count1, msgContext, _configuration);
                     break;
+                case CRMLuisModel.Intent.SharePoint_AddTask:
+                    Logger.LogInformation($"[Inside the SharePoint.AddTask Intent] " + msgContext.Activity.AsMessageActivity()?.Text, msgContext.Activity.Conversation.Id);
+                    await QuerySharePoint.AddTask("https://atidan2.sharepoint.com/sites/ManufacturingICS1", msgContext, _configuration);
+                    break;
                 case CRMLuisModel.Intent.None:
                 default:
                     Logger.LogInformation($"[Inside the None Intent] " + msgContext.Activity.AsMessageActivity()?.Text, msgContext.Activity.Conversation.Id);

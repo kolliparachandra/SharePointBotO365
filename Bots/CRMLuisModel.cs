@@ -33,6 +33,7 @@ namespace EchoBot1.Bots
             Test333,
             SharePoint_TopLists,
             SharePoint_ListItems,
+            SharePoint_AddTask,
 
         };
         public Dictionary<Intent, IntentScore> Intents;

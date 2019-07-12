@@ -262,7 +262,7 @@ namespace EchoBot1.Bots
                     break;
                 case CRMLuisModel.Intent.SharePoint_AddTask:
                     Logger.LogInformation($"[Inside the SharePoint.AddTask Intent] " + msgContext.Activity.AsMessageActivity()?.Text, msgContext.Activity.Conversation.Id);
-                    await QuerySharePoint.AddTask("https://atidan2.sharepoint.com/sites/ManufacturingICS1", msgContext, _configuration);
+                    await QuerySharePoint.AddTask("https://atidan2.sharepoint.com/sites/ManufacturingICS1", msgContext, _configuration, luisResult0);
                     break;
                 case CRMLuisModel.Intent.None:
                 default:

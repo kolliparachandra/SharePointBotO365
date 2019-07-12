@@ -1,4 +1,5 @@
 ﻿using BotApplication.CRM;
+using EchoBot1.Dialogs;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ namespace EchoBot1.SharePoint
 {
     public class QuerySharePoint
     {
-        public static async Task AddTask(string webUrl, ITurnContext<IMessageActivity> turnContext, IConfiguration ConfigurationManager)
+        public static async Task AddTask(string webUrl, ITurnContext<IMessageActivity> turnContext, IConfiguration ConfigurationManager, RecognizerResult luisResult)
         {
             var taskId = Guid.NewGuid();
             List<string> titles = new List<string>
@@ -22,6 +23,8 @@ namespace EchoBot1.SharePoint
 
             var userName = ConfigurationManager["CrmUsername"].ToString();
             var password = ConfigurationManager["CrmPassword"].ToString();
+
+            var currentDate = GetTaskDate(luisResult);
 
             await Task.Run(async () =>
             {
@@ -39,8 +42,8 @@ namespace EchoBot1.SharePoint
                         oListItem["Title"] = $"A New Task with Id of {taskId} added!";
                         oListItem["Body"] = "Hello Razor Tech!";
                         oListItem["Status"] = "Started";
-                        oListItem["StartDate"] = DateTime.Now.ToLongDateString();
-                        oListItem["DueDate"] = DateTime.Now.AddDays(2).ToLongDateString();
+                        oListItem["StartDate"] = currentDate.ToLongDateString();
+                        oListItem["DueDate"] = currentDate.AddDays(2).ToLongDateString();
 
                         oListItem.Update();
                         await context.ExecuteQueryAsync();
@@ -58,6 +61,25 @@ namespace EchoBot1.SharePoint
                 await CrmLead.DisplayMessage(card, turnContext);
             });
         }
+
+        private static DateTime GetTaskDate(RecognizerResult luisResult)
+        {
+            object entitydate = null;
+            entitydate = luisResult.GetEntity<object>("datetime", "text");
+            if (entitydate != null)
+            {
+                DateTime currentDate;
+                if (entitydate != null)
+                {
+                    if (DateTime.TryParse(entitydate.ToString(), out currentDate))
+                    {
+                        return currentDate;
+                    }
+                }
+            }
+            return DateTime.Now;
+        }
+
         public static async Task GetTopLists(string webUrl, int count, ITurnContext<IMessageActivity> turnContext, string siteName, IConfiguration ConfigurationManager)
         {
             List<string> titles = new List<string>

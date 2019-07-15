@@ -43,6 +43,21 @@ namespace EchoBot1.CRM
                         await CrmDataConnection.AddEventToCalendar(turnContext, userStateAccessor, currentDate);
                         await turnContext.SendActivityAsync(MessageFactory.Text($"Added event to your calendar for : {currentDate.ToLongDateString()}"), cancellationToken);
                     }
+                    else
+                    {
+                        try
+                        {
+                            var dayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), entitydate.ToString(), true);
+                            currentDate = DateTime.Now.ClosestWeekDay(currentDay);
+                            eventAdded = true;
+                            Logger.LogInformation($"[Inside the Calendar.Event Intent success event] " + turnContext.Activity.AsMessageActivity()?.Text, turnContext.Activity.Conversation.Id);
+                            await CrmDataConnection.AddEventToCalendar(turnContext, userStateAccessor, currentDate);
+                            await turnContext.SendActivityAsync(MessageFactory.Text($"Added event to your calendar for : {currentDate.ToLongDateString()}"), cancellationToken);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
                 }
             }
             if (!eventAdded)

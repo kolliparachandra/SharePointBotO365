@@ -76,8 +76,18 @@ namespace EchoBot1.SharePoint
                     }
                     else if (Enum.TryParse<DayOfWeek>(entitydate.ToString(), out DayOfWeek currentDay))
                     {
-                        //var dayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), entitydate.ToString(), true);
                         return DateTime.Now.ClosestWeekDay(currentDay);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var dayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), entitydate.ToString(), true);
+                            return DateTime.Now.ClosestWeekDay(dayOfWeek);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
             }

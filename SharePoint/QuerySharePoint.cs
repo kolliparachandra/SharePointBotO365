@@ -42,8 +42,8 @@ namespace EchoBot1.SharePoint
                         oListItem["Title"] = $"A New Task with Id of {taskId} added!";
                         oListItem["Body"] = "Hello Razor Tech!";
                         oListItem["Status"] = "Started";
-                        oListItem["StartDate"] = currentDate.ToLongDateString();
-                        oListItem["DueDate"] = currentDate.AddDays(2).ToLongDateString();
+                        oListItem["StartDate"] = currentDate.AddDays(1).ToLongDateString();
+                        oListItem["DueDate"] = currentDate.AddDays(3).ToLongDateString();
 
                         oListItem.Update();
                         await context.ExecuteQueryAsync();
@@ -68,12 +68,16 @@ namespace EchoBot1.SharePoint
             entitydate = luisResult.GetEntity<object>("datetime", "text");
             if (entitydate != null)
             {
-                DateTime currentDate;
                 if (entitydate != null)
                 {
-                    if (DateTime.TryParse(entitydate.ToString(), out currentDate))
+                    if (DateTime.TryParse(entitydate.ToString(), out DateTime currentDate))
                     {
                         return currentDate;
+                    }
+                    else if (Enum.TryParse<DayOfWeek>(entitydate.ToString(), out DayOfWeek currentDay))
+                    {
+                        //var dayOfWeek = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), entitydate.ToString(), true);
+                        return DateTime.Now.ClosestWeekDay(currentDay);
                     }
                 }
             }

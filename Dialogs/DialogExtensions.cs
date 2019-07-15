@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using BotApplication.Forms;
@@ -10,6 +11,17 @@ namespace EchoBot1.Dialogs
 {
     public static class DialogExtensions
     {
+        public static DateTime ClosestWeekDay(this DateTime date, DayOfWeek weekday)
+        {
+            var day = date.DayOfWeek;
+            int add = ((int)weekday - (int)day);
+            if (add < 0)
+            {
+                add += 7;
+            }
+            return date.AddDays(add);
+        }
+
         public static async Task<DialogTurnResult> Run(this Dialog dialog, ITurnContext turnContext, IStatePropertyAccessor<DialogState> accessor, CancellationToken cancellationToken = default(CancellationToken), DialogContext ctx = null)
         {
             var dialogSet = new DialogSet(accessor);
